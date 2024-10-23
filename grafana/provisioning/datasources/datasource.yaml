@@ -1,0 +1,15 @@
+apiVersion: 1
+
+datasources:
+  - name: PostgreSQL-dev
+    type: postgres
+    access: proxy
+    url: postgres:5432
+    database: airflow
+    user: ${GRAFANA_DB_USER}  # Use the environment variable for the username
+    postgresVersion: 13
+    secureJsonData:
+      password: ${GRAFANA_DB_PASSWORD}  # Use the environment variable for the password
+    jsonData:
+      sslmode: disable
+    isDefault: true

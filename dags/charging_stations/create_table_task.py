@@ -1,7 +1,7 @@
 from airflow.hooks.postgres_hook import PostgresHook
 
 def create_table():
-    TABLE_NAME = "ladesaeulenregister"
+    TABLE_NAME = "chargingstations"
     create_sql = f"""
     CREATE TABLE IF NOT EXISTS {TABLE_NAME} (
         betreiber TEXT,
