@@ -1,0 +1,12 @@
+name: datapipeline
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - numpy
+  - pip
+  # Pip packages are listed in requirements.txt
+  - pip:
+      # Reminder: Check Airflow's package constraints before adding anything to requirements.txt
+      # Refer to: https://airflow.apache.org/docs/apache-airflow/stable/installation.html#constraints-files
+      - -r requirements.txt
