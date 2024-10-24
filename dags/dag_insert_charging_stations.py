@@ -4,6 +4,7 @@ from datetime import datetime
 
 from charging_stations.create_table_task import create_table
 from charging_stations.insert_data_task import insert_data_to_postgres
+from charging_stations.delete_table_task import delete_table
 
 # Define default arguments
 default_args = {
@@ -30,6 +31,11 @@ with DAG(
         task_id='insert_data_to_postgres',
         python_callable=insert_data_to_postgres
     )
+    
+    delete_table_task = PythonOperator(
+        task_id='delete_table',
+        python_callable=delete_table
+    )
 
     # Set task dependencies
-    create_table_task >> insert_data_task
+    delete_table_task >> create_table_task >> insert_data_task

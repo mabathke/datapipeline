@@ -61,4 +61,42 @@ def insert_data_to_postgres():
     if len(df.columns) == len(expected_columns):
         df.columns = expected_columns
     
-    df.to_sql("ladesaeulenregister", con=engine, if_exists="append", index=False)
+    df.to_sql("chargingstations", con=engine, if_exists="append", index=False)
+
+
+def insert_data_to_postgres():
+    pg_hook = PostgresHook(postgres_conn_id="datapipeline_postgres")
+    engine = pg_hook.get_sqlalchemy_engine()
+    
+    df = download_csv_data()
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+
+    expected_columns = [
+        'betreiber', 'strasse', 'hausnummer', 'adresszusatz', 'postleitzahl', 'ort', 'bundesland', 'kreis',
+        'breitengrad', 'laengengrad', 'inbetriebnahmedatum', 'nennleistung_ladeeinrichtung_kw', 'art_der_ladeeinrichtung',
+        'anzahl_ladepunkte', 'steckertypen1', 'p1_kw', 'public_key1', 'steckertypen2', 'p2_kw', 'public_key2',
+        'steckertypen3', 'p3_kw', 'public_key3', 'steckertypen4', 'p4_kw', 'public_key4'
+    ]
+    
+    if len(df.columns) == len(expected_columns):
+        df.columns = expected_columns
+    
+    # Ensure unique rows based on columns that should be unique, e.g., 'betreiber', 'strasse', 'hausnummer'
+    # You may adjust these columns as needed for your data
+    unique_columns = ['betreiber', 'strasse', 'hausnummer', 'postleitzahl', 'ort']
+    
+    # Perform the insert using SQLAlchemy with conflict handling
+    with engine.begin() as conn:
+        for _, row in df.iterrows():
+            # Convert the row to a dictionary for easy insertion
+            data = row.to_dict()
+            
+            insert_statement = f"""
+            INSERT INTO chargingstations ({', '.join(df.columns)}) 
+            VALUES ({', '.join(['%s'] * len(df.columns))})
+            ON CONFLICT ({', '.join(unique_columns)}) 
+            DO NOTHING
+            """
+            
+            # Execute the insert statement
+            conn.execute(insert_statement, list(data.values()))

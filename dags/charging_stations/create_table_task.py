@@ -29,8 +29,10 @@ def create_table():
         public_key3 TEXT,
         steckertypen4 TEXT,
         p4_kw FLOAT,
-        public_key4 TEXT
+        public_key4 TEXT,
+        CONSTRAINT unique_station_constraint UNIQUE (betreiber, strasse, hausnummer, postleitzahl, ort)
     );
     """
+    
     pg_hook = PostgresHook(postgres_conn_id="datapipeline_postgres")
     pg_hook.run(create_sql)
