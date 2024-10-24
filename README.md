@@ -16,6 +16,10 @@ This project implements a simple data pipeline for gathering, backing up, and an
     conda env create -f conda-env.yaml
     conda activate datapipeline
     ```
+3. Update the conda environment with the following command:
+    ```bash
+    conda env update -f conda-env.yaml
+    ```
 
 ### Setup database user for grafana
 
