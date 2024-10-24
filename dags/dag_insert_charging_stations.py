@@ -31,11 +31,14 @@ with DAG(
         task_id='insert_data_to_postgres',
         python_callable=insert_data_to_postgres
     )
+    '''
+    if you need to reset the table because of schema changes/updates use the delete_table_task
     
     delete_table_task = PythonOperator(
         task_id='delete_table',
         python_callable=delete_table
     )
 
-    # Set task dependencies
-    delete_table_task >> create_table_task >> insert_data_task
+    #delete_table_task >> create_table_task >> insert_data_task
+    '''
+    create_table_task >> insert_data_task
