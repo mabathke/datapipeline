@@ -2,9 +2,9 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
 
-from charging_stations.create_table_task import create_table
-from charging_stations.insert_data_task import insert_data_to_postgres
-from charging_stations.delete_table_task import delete_table
+from dags.charging_stations.task_create_table import create_table
+from dags.charging_stations.task_insert_data import insert_data_to_postgres
+from charging_stations.task_delete_table import delete_table
 
 # Define default arguments
 default_args = {
