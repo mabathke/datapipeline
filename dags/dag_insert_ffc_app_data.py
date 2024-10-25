@@ -2,8 +2,8 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
 
-from ffc_app.gather_db_ffc_app import get_dataframe_from_raspberry
-from ffc_app.create_tables import create_tables
+from ffc_app.task_gather_db_ffc_app import get_and_insert_tables_from_raspberry
+from ffc_app.task_create_tables import create_tables
 '''
 The DAG gets only ran locally since I do not want to expose my Raspberry Pi to the internet.
 If I find a solution to let airflow access my raspberry I will let the DAG run. The DA
@@ -24,10 +24,15 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    gather_db_ffc_app_task = PythonOperator(
-        task_id='gather_db_ffc_app',
-        python_callable=get_dataframe_from_raspberry,  
-        op_args=['scoreboard'],  
+    get_and_insert_tables_from_raspberry_task = PythonOperator(
+        task_id='get_and_insert_tables_from_raspberry',
+        python_callable=get_and_insert_tables_from_raspberry,  
+        op_args=[['types_of_fish', 'scoreboard', 'users']],  # Tables to be processed
+    )
+    
+    create_tables_task = PythonOperator(
+        task_id='create_tables',
+        python_callable=create_tables
     )
 
-    gather_db_ffc_app_task
+    create_tables_task >> get_and_insert_tables_from_raspberry_task

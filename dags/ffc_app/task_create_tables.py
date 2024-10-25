@@ -46,7 +46,7 @@ CREATE_TABLES_SQL = [
 
 def create_tables():
     # Use PostgresHook to connect to the PostgreSQL database
-    pg_hook = PostgresHook(postgres_conn_id='your_postgres_connection_id')
+    pg_hook = PostgresHook(postgres_conn_id='datapipeline_postgres')
     
     # Execute each SQL statement
     for sql in CREATE_TABLES_SQL:
