@@ -3,7 +3,11 @@ from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
 
 from ffc_app.gather_db_ffc_app import get_dataframe_from_raspberry
-
+from ffc_app.create_tables import create_tables
+'''
+The DAG gets only ran locally since I do not want to expose my Raspberry Pi to the internet.
+If I find a solution to let airflow access my raspberry I will let the DAG run. The DA
+'''
 # Define default arguments
 default_args = {
     'owner': 'airflow',

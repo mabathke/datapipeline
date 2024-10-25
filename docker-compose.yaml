@@ -71,6 +71,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    cap_add:
+      - NET_RAW  # Enable ping
 
   airflow-scheduler:
     <<: *airflow-common
@@ -86,6 +88,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    cap_add:
+      - NET_RAW  # Enable ping
 
   airflow-worker:
     <<: *airflow-common
@@ -106,6 +110,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    cap_add:
+      - NET_RAW  # Enable ping
 
   airflow-triggerer:
     <<: *airflow-common
@@ -121,6 +127,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    cap_add:
+      - NET_RAW  # Enable ping
 
   airflow-init:
     <<: *airflow-common
@@ -157,3 +165,5 @@ services:
 volumes:
   postgres-db-volume:
   grafana-storage:
+
+
