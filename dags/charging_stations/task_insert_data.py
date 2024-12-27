@@ -60,7 +60,7 @@ def insert_data_to_postgres():
     
     if len(df.columns) == len(expected_columns):
         df.columns = expected_columns
-       # Remove duplicate rows based on relevant columns (adjust as necessary)
+    # Remove duplicate rows based on relevant columns to match UNIQUE constraint of the table schema
     df = df.drop_duplicates(subset=['betreiber', 'strasse', 'hausnummer', 'postleitzahl', 'ort'])
     
     df.to_sql("chargingstations", con=engine, if_exists="append", index=False)

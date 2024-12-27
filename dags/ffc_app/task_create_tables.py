@@ -26,13 +26,6 @@ CREATE_TABLES_SQL = [
     );
     """,
     """
-    CREATE TABLE IF NOT EXISTS email_verified (
-        id SERIAL PRIMARY KEY,
-        email TEXT UNIQUE,
-        register_key INTEGER UNIQUE
-    );
-    """,
-    """
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         username TEXT UNIQUE,

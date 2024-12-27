@@ -6,7 +6,8 @@ from ffc_app.task_gather_db_ffc_app import get_and_insert_tables_from_raspberry
 from ffc_app.task_create_tables import create_tables
 '''
 The DAG gets only ran locally since I do not want to expose my Raspberry Pi to the internet.
-If I find a solution to let airflow access my raspberry I will let the DAG run. The DA
+If I find a solution to let airflow access my raspberry I will let the DAG run. 
+TODO: ERRORHANDLING
 '''
 # Define default arguments
 default_args = {
@@ -18,7 +19,7 @@ default_args = {
 
 # Define the DAG
 with DAG(
-    dag_id='insert_fc_app_data',
+    dag_id='insert_ffc_app_data',
     default_args=default_args,
     schedule_interval=None,
     catchup=False,
